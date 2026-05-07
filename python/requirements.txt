@@ -1,0 +1,4 @@
+asyncua
+pyodbc
+pandas
+matplotlib

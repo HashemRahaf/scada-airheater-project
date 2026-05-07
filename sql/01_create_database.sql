@@ -1,0 +1,8 @@
+IF DB_ID('SCADA_AirHeater') IS NULL
+BEGIN
+    CREATE DATABASE SCADA_AirHeater;
+END;
+GO
+
+USE SCADA_AirHeater;
+GO
