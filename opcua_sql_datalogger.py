@@ -15,6 +15,9 @@ CONN_STR = (
     "TrustServerCertificate=yes;"
 )
 
+# If your computer uses Driver 18 instead, replace the first line with:
+# "Driver={ODBC Driver 18 for SQL Server};"
+
 # =========================
 # OPC UA settings
 # =========================
@@ -28,11 +31,7 @@ TAGS = {
     "AirHeater.FilteredTemperature": "FilteredTemperature",
     "AirHeater.Setpoint": "Setpoint",
     "AirHeater.ControlSignal": "ControlSignal",
-    "AirHeater.Error": "Error",
-    "AirHeater.InletTemperature": "InletTemperature",
-    "AirHeater.OutletTemperature": "OutletTemperature",
-    "AirHeater.Airflow": "Airflow",
-    "AirHeater.HeaterPower": "HeaterPower"
+    "AirHeater.Error": "Error"
 }
 
 
@@ -84,7 +83,7 @@ def clear_alarm_if_active(cursor, alarm_definition_id):
 
 
 def check_alarms(cursor, temperature, control_signal):
-    if temperature > 40.0:
+    if temperature > 80.0:
         create_alarm_if_needed(cursor, 1, temperature)
     else:
         clear_alarm_if_active(cursor, 1)
@@ -145,11 +144,11 @@ async def main():
                 print(
                     f"{now} | "
                     f"Logged from OPC UA: "
-                    f"PV={values['AirHeater.Temperature']:.2f} C | "
-                    f"Filtered={values['AirHeater.FilteredTemperature']:.2f} C | "
-                    f"SP={values['AirHeater.Setpoint']:.2f} C | "
+                    f"PV={values['AirHeater.Temperature']:.2f} °C | "
+                    f"Filtered={values['AirHeater.FilteredTemperature']:.2f} °C | "
+                    f"SP={values['AirHeater.Setpoint']:.2f} °C | "
                     f"MV={values['AirHeater.ControlSignal']:.2f} % | "
-                    f"Error={values['AirHeater.Error']:.2f} C"
+                    f"Error={values['AirHeater.Error']:.2f} °C"
                 )
 
                 await asyncio.sleep(LOG_INTERVAL)
